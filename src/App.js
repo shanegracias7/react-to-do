@@ -1,12 +1,24 @@
-import React,{ useState } from "react";
+import React,{ useState , useRef } from "react";
 import ToDoList from "./ToDoList";
+import  { v4 as uuidv4 } from 'uuid'
 
 function App() {
-  const [storedToDos, setTodos] = useState([{id:1,value:'todo1',complete:true},{id:2,value:'todo2',complete:true}])
+  const [storedToDos, setToDos] = useState([])
+  const toDoRef = useRef()
+
+  function handleAdd(e){
+    const value = toDoRef.current.value
+    if(value === '') return
+    setToDos((prevToDo) => {
+      return [...prevToDo,{id:uuidv4(),value:value,checked:false}]
+    })
+    toDoRef.current.value=null
+    
+  }
   return (
     <>
-    <input type="text"/>
-    <button>ADD</button>
+    <input type="text" ref={toDoRef}/>
+    <button onClick={handleAdd}>ADD</button>
     <button>CLEAR</button>
     <ToDoList toDoList = {storedToDos}/>
     </>
