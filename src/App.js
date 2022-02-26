@@ -43,9 +43,16 @@ function App() {
     setToDos(completedToDoList)
   }
 
+  
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        handleAdd(event)
+      }
+    }
+    
   return (
     <>
-    <input type="text" ref={toDoRef}/>
+    <input type="text" ref={toDoRef} onKeyDown={handleKeyDown}/>
     <button onClick={handleAdd}>ADD</button>
     <button onClick={handleCLEAR}>CLEAR</button>
     <ToDoList toDoList = {storedToDos} toggleToDo = {toggleToDo} />
