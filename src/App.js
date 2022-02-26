@@ -23,26 +23,32 @@ function App() {
     const value = toDoRef.current.value
     if(value === '') return
     setToDos((prevToDo) => {
-      return [...prevToDo,{id:uuidv4(),value:value,checked:true}]
+      return [...prevToDo,{id:uuidv4(),value:value,checked:false}]
     })
     toDoRef.current.value=null
     
   }
 
   //handling toggle in checkbox
-  function toogleToDo(id){
+  function toggleToDo(id){
     const newToDos = [...storedToDos]
     const toDo = newToDos.find(toDo => toDo.id === id)
     toDo.checked = !toDo.checked
     setToDos(newToDos)
   }
 
+  function handleCLEAR(){
+    const completedToDoList = storedToDos.filter(todo => todo.checked === false)
+    //console.log(completedToDoList)
+    setToDos(completedToDoList)
+  }
+
   return (
     <>
     <input type="text" ref={toDoRef}/>
     <button onClick={handleAdd}>ADD</button>
-    <button>CLEAR</button>
-    <ToDoList toDoList = {storedToDos} toggleToDo = {toogleToDo} />
+    <button onClick={handleCLEAR}>CLEAR</button>
+    <ToDoList toDoList = {storedToDos} toggleToDo = {toggleToDo} />
     </>
     
   ) 

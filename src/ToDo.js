@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function ToDo({toDoItem, toogleToDo}) {
+export default function ToDo({toDoItem, toggleToDo}) {
     function handleToggle(){
-        toogleToDo(toDoItem.id)  
+        toggleToDo(toDoItem.id)  
     }
   return (
     <div>
