@@ -1,9 +1,11 @@
 import React,{ useState , useRef , useEffect} from "react";
 import ToDoList from "./ToDoList";
 import  { v4 as uuidv4 } from 'uuid'
+import { Input,Button, Box, Paper } from "@mui/material";
 
 function App() {
   const [storedToDos, setToDos] = useState([])
+  const [text, setText] = useState('')
   const toDoRef = useRef()
   const LocalStorageKey = 'todo.local'
 
@@ -20,12 +22,13 @@ function App() {
 
   //adding new to do items
   function handleAdd(e){
-    const value = toDoRef.current.value
-    if(value === '') return
+  
+    if(text === '') return
     setToDos((prevToDo) => {
-      return [...prevToDo,{id:uuidv4(),value:value,checked:false}]
+      return [...prevToDo,{id:uuidv4(),value:text,checked:false}]
     })
-    toDoRef.current.value=null
+    setText('')
+
     
   }
 
@@ -51,12 +54,17 @@ function App() {
     }
     
   return (
-    <>
-    <input type="text" ref={toDoRef} onKeyDown={handleKeyDown}/>
-    <button onClick={handleAdd}>ADD</button>
-    <button onClick={handleCLEAR}>CLEAR</button>
+    <div>
+    <Paper elevation={3} >
+      <Box display='flex' sx={{alignItems:'center', padding:2,justifyContent:"center"}}>
+        <Input type="text" placeholder="Enter new task..." value={text} onChange={event => setText(event.target.value)} onKeyDown={handleKeyDown}/>
+        <Button variant="contained" sx={{alignItems:'center', margin:2}} onClick={handleAdd} >ADD</Button>
+        <Button variant="contained" color="error" onClick={handleCLEAR}>CLEAR</Button>
+      </Box>
+    </Paper>  
+    
     <ToDoList toDoList = {storedToDos} toggleToDo = {toggleToDo} />
-    </>
+    </div>
     
   ) 
 }
